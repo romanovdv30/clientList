@@ -5,15 +5,11 @@ function TableBody(options) {
     this.collection = options.collection;
     this.table = options.table;
     this.rowItems = [];
-    this.addHandlers.call(this);
+    this.el.addEventListener("click", this.delEditHandlers.bind(this));
     this.addEventListener('reverse', this.reverse.bind(this));
     this.addEventListener('columnSort', this.sort.bind(this));
+
     this.render();
-    var self= this;
-    this.id = setInterval(function tickTack(){
-            self.render();
-        }
-        , 1000);
 }
 
 TableBody.prototype.clearTBody = function () {
@@ -49,7 +45,7 @@ TableBody.prototype.reverse = function () {
 };
 
 TableBody.prototype.sort = function (sortBy) {
-    switch (sortBy) { 
+    switch (sortBy) {
         case "id" :
             this.collection.sort(function (obj1, obj2) {
                 return +obj1[sortBy] - +obj2[sortBy];
@@ -70,50 +66,46 @@ TableBody.prototype.sort = function (sortBy) {
     this.render();
 };
 
-TableBody.prototype.addHandlers = function () {
-    this.el.addEventListener("click", this.deleteRow.bind(this));
-    this.el.addEventListener("click", this.editModel.bind(this));
-};
 
-TableBody.prototype.editModel = function (e) {
-    var popup = document.querySelector(".popup");
-    if (e.target.className != "editClient" || popup) {
-        return false
+TableBody.prototype.delEditHandlers = function (e) {
+    if (e.target.className == "delClient") {
+        this.deleteRow(e);
     }
-
-    var row = e.target.closest("TR");
-    var colIndex = this.findColIndex(row);
-    var model = this.collection[colIndex];
-
-    var form = new FormView({
-        collection: this.collection,
-        table: this.table,
-        model: model
-    });
-    document.body.appendChild(form.render());
-    changeForm();
-    function changeForm(){
-        var popup = document.querySelector(".popup");
-        popup.querySelector("h3").textContent = "Edit Client";
-        popup.querySelector(".add-btn").style.display = "none";
-        popup.querySelector(".edit-btn").style.display = "inline";
+    if (e.target.className == "editClient") {
+        var row = e.target.closest("TR");
+        var colIndex = this.findColIndex(row);
+        var model = this.collection[colIndex];
+        this.triggerEvent("edit", model);
     }
 };
+
 
 TableBody.prototype.deleteRow = function (e) {
-    var row = e.target.closest("TR");
+    var row = e.target.closest("TR");// it has row id
     if (e.target.className !== "delClient") {
         return false;
     }
-    var colIndex = this.findColIndex(row);
 
-    this.collection.splice(colIndex, 1);
+
     if (this.collection.length == 0) {
         this.render();
     } else {
-        //remove rowItem and destroy timer
-        row.parentElement.removeChild(row);
+       var colIndex = this.findColIndex(row);
+       this.collection.splice(colIndex, 1);
+       var rowIndex = this.findRowIndex(row);
+       this.rowItems[rowIndex].destroy();
+       this.rowItems.splice(rowIndex,1);
     }
+};
+
+TableBody.prototype.findRowIndex = function(row){
+    var rowIndex;
+    this.rowItems.forEach(function (item, index) {
+        if (+row.dataset.id == item.model.id) {
+            rowIndex = index;
+        }
+    });
+    return rowIndex;
 };
 
 TableBody.prototype.findColIndex = function (row) {
@@ -123,7 +115,6 @@ TableBody.prototype.findColIndex = function (row) {
             colIndex = index;
         }
     });
-
     return colIndex;
 };
 

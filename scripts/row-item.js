@@ -3,6 +3,7 @@ function RowItem(options) {
     this.el.className = "client";
     this.model = options.model;
     this.el.dataset.id = this.model.id;
+    this.id = this.model.id;
     this.collection = options.collection;
     this.render();
 }
@@ -32,9 +33,8 @@ RowItem.prototype.templ = function (elem, model) {
 
     var dateElement = document.createElement("TD");
     dateElement.className = "client-date";
-    //dateElement.textContent = this.estimatedTimeCount(this.model.date);
-    new EstimateDateElement(this.model.date, dateElement);
-    fragment.appendChild(dateElement);
+    this.date = new EstimatedDateElement(this.model.date, dateElement);
+    fragment.appendChild(this.date.el);
 
     var delElement = document.createElement("TD");
     delElement.className = "client-delete";
@@ -59,13 +59,14 @@ RowItem.prototype.templ = function (elem, model) {
     elem.appendChild(fragment);
 };
 
-RowItem.prototype.estimatedTimeCount = function (str) {
-   
-};
-
 RowItem.prototype.render = function () {
     this.templ(this.el, this.model);
     return this;
 };
+
+RowItem.prototype.destroy = function(){
+    this.date.stop();
+    this.el.parentElement.removeChild(this.el);
+}
     
 
