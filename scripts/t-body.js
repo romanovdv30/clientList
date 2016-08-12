@@ -85,13 +85,11 @@ TableBody.prototype.deleteRow = function (e) {
     if (e.target.className !== "delClient") {
         return false;
     }
-
-
+    var colIndex = this.findColIndex(row);
+    this.collection.splice(colIndex, 1);
     if (this.collection.length == 0) {
         this.render();
     } else {
-       var colIndex = this.findColIndex(row);
-       this.collection.splice(colIndex, 1);
        var rowIndex = this.findRowIndex(row);
        this.rowItems[rowIndex].destroy();
        this.rowItems.splice(rowIndex,1);
