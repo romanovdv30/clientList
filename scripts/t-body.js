@@ -81,7 +81,7 @@ TableBody.prototype.delEditHandlers = function (e) {
 
 
 TableBody.prototype.deleteRow = function (e) {
-    var row = e.target.closest("TR");// it has row id
+    var row = e.target.closest("TR");
     if (e.target.className !== "delClient") {
         return false;
     }

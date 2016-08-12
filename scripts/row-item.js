@@ -67,6 +67,6 @@ RowItem.prototype.render = function () {
 RowItem.prototype.destroy = function(){
     this.date.stop();
     this.el.parentElement.removeChild(this.el);
-}
+};
     
 

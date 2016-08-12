@@ -60,8 +60,8 @@
           <file leaf-file-name="layout.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/scripts/layout.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="453">
-                  <caret line="34" column="47" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
+                <state relative-caret-position="646">
+                  <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
                   <folding />
                 </state>
               </provider>
@@ -85,8 +85,8 @@
           <file leaf-file-name="row-item.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/scripts/row-item.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="51">
-                  <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
+                <state relative-caret-position="238">
+                  <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
                   <folding>
                     <element signature="e#320#1974#0" expanded="false" />
                     <element signature="e#2016#2073#0" expanded="false" />
@@ -99,12 +99,16 @@
           <file leaf-file-name="t-body.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/scripts/t-body.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="255">
-                  <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+                <state relative-caret-position="374">
+                  <caret line="48" column="19" selection-start-line="48" selection-start-column="19" selection-end-line="48" selection-end-column="19" />
                   <folding>
                     <element signature="e#510#571#0" expanded="false" />
+                    <element signature="e#615#1254#0" expanded="false" />
                     <element signature="e#1299#1352#0" expanded="false" />
-                    <element signature="e#1400#2036#0" expanded="false" />
+                    <element signature="e#2091#2402#0" expanded="false" />
+                    <element signature="e#2451#2860#0" expanded="false" />
+                    <element signature="e#2911#3100#0" expanded="false" />
+                    <element signature="e#3153#3338#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -113,8 +117,8 @@
           <file leaf-file-name="estimated-date-element.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/scripts/estimated-date-element.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="782">
-                  <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
+                <state relative-caret-position="850">
+                  <caret line="50" column="2" selection-start-line="50" selection-start-column="2" selection-end-line="50" selection-end-column="2" />
                   <folding />
                 </state>
               </provider>
@@ -175,8 +179,8 @@
         <option value="$PROJECT_DIR$/scripts/header-item.js" />
         <option value="$PROJECT_DIR$/scripts/EstimateDateElement.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/scripts/estimated-date-element.js" />
         <option value="$PROJECT_DIR$/scripts/layout.js" />
+        <option value="$PROJECT_DIR$/scripts/estimated-date-element.js" />
         <option value="$PROJECT_DIR$/scripts/row-item.js" />
         <option value="$PROJECT_DIR$/scripts/t-body.js" />
       </list>
@@ -378,12 +382,12 @@
       <workItem from="1470815079990" duration="26232000" />
       <workItem from="1470899536539" duration="17070000" />
       <workItem from="1470986504733" duration="1701000" />
-      <workItem from="1470994988875" duration="10601000" />
+      <workItem from="1470994988875" duration="11664000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="146008000" />
+    <option name="totallyTimeSpent" value="147071000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -442,7 +446,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="11" />
+      <option name="time" value="12" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -803,22 +807,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/table-view.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="19" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/layout.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="453">
-          <caret line="34" column="47" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/header-item.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -829,26 +817,6 @@
             <element signature="e#1940#2019#0" expanded="false" />
             <element signature="e#2078#2648#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/row-item.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="31" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
-          <folding>
-            <element signature="e#320#1974#0" expanded="false" />
-            <element signature="e#2016#2073#0" expanded="false" />
-            <element signature="e#2114#2187#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/estimated-date-element.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="782">
-          <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -870,14 +838,54 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/estimated-date-element.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="850">
+          <caret line="50" column="2" selection-start-line="50" selection-start-column="2" selection-end-line="50" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/row-item.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+          <folding>
+            <element signature="e#320#1974#0" expanded="false" />
+            <element signature="e#2016#2073#0" expanded="false" />
+            <element signature="e#2114#2187#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/table-view.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="19" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/layout.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/t-body.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        <state relative-caret-position="374">
+          <caret line="48" column="19" selection-start-line="48" selection-start-column="19" selection-end-line="48" selection-end-column="19" />
           <folding>
             <element signature="e#510#571#0" expanded="false" />
+            <element signature="e#615#1254#0" expanded="false" />
             <element signature="e#1299#1352#0" expanded="false" />
-            <element signature="e#1400#2036#0" expanded="false" />
+            <element signature="e#2091#2402#0" expanded="false" />
+            <element signature="e#2451#2860#0" expanded="false" />
+            <element signature="e#2911#3100#0" expanded="false" />
+            <element signature="e#3153#3338#0" expanded="false" />
           </folding>
         </state>
       </provider>

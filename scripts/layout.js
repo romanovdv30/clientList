@@ -37,7 +37,6 @@ Layout.prototype.editModel = function (model) {
     if (popup) {
         return false
     }
-
     var form = new FormView({
         collection: this.collection,
         table: this.table,

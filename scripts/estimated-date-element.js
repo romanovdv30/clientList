@@ -3,7 +3,6 @@ function EstimatedDateElement(date, element) {
     this.date = date;
     this.render();
     this.start();
-
 }
 
 EstimatedDateElement.prototype.calculateTime = function () {
@@ -50,7 +49,6 @@ EstimatedDateElement.prototype.start = function () {
         }
         , 1000);
 };
-
 
 EstimatedDateElement.prototype.stop = function () {
     clearTimeout(this.id);
