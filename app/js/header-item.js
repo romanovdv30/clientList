@@ -13,7 +13,7 @@
     }
 
     HeaderItem.prototype.templ = function (element) {
-        var tr = document.createElement("TR");
+        var tr = document.createElement('TR');
 
         var fragment = document.createDocumentFragment();
         var idElement = document.createElement('TH');

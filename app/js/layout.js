@@ -1,4 +1,4 @@
-;(function (App) {
+;(function (App,w) {
     'use strict';
 
     function AppLayout(options) {
@@ -10,14 +10,13 @@
         this.button = document.createElement('BUTTON');
         this.tBody.addEventListener('edit', this.editModel.bind(this));
         this.tBody.el.addEventListener('scroll', this.scrollHandler.bind(this));
-        this.scrollTimerId;
         this.loadingSettings = {
             loadingInProgress: false,
             page: 0,
             pageSize: 5,
             totalItems: 12,
             allPagesLoaded: false
-        }
+        };
     }
 
     AppLayout.prototype.scrollHandler = function () {
@@ -40,11 +39,8 @@
 
     AppLayout.prototype.loadClients = function (settings) {
         var self = this;
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:4000/listUsers', true);
-        xhr.send();
-        xhr.onreadystatechange = statusHandler.bind(xhr);
         function statusHandler() {
+            /*jshint validthis:true */
             if (this.readyState !== 4) {
                 return;
             }
@@ -56,8 +52,14 @@
                 w.alert('error: ' + (this.status ? this.statusText : 'problems with request'));
             }
         }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:4000/listUsers', true);
+        xhr.send();
+        xhr.onreadystatechange = statusHandler.bind(xhr);
+
     };
-    
+
     AppLayout.prototype.addAjaxClients = function (clients) {
         var self = this;
         clients.forEach(function(item){
@@ -116,4 +118,4 @@
     };
 
     App.Views.AppLayout = AppLayout;
-})(App);
+})(App, window);
