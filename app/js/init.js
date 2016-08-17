@@ -10,7 +10,7 @@
 
     function getClientsData() {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'data/clients.json', true);
+        xhr.open('GET', 'http://localhost:4000/listUsers', true);
         xhr.send();
 
         xhr.onreadystatechange = function () {
@@ -18,7 +18,8 @@
                 return;
             } 
             if (this.status >= 200 && this.status <300) {
-                App.Collections.clients = JSON.parse(xhr.responseText);
+                var clients =JSON.parse(xhr.responseText);
+                App.Collections.clients = clients.slice(0,6);
                 createLayout(App.Collections.clients);
             } else {
                 w.alert('error: ' + (this.status ? this.statusText : 'problems with request'));

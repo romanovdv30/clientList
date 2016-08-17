@@ -11,7 +11,6 @@
         this.el.addEventListener('click', this.delEditHandlers.bind(this));
         this.addEventListener('reverse', this.reverse.bind(this));
         this.addEventListener('columnSort', this.sort.bind(this));
-
         this.render();
     }
 

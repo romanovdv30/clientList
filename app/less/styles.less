@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   position: relative;
+  width:1200px;
 }
 
 .list {
@@ -9,63 +10,98 @@ body {
   background-color: #fff;
   border: 1px solid grey;
   caption {
-  height: 30px;
-  font: bold 24px Arial, sans-serif;
+    height: 30px;
+    font: bold 24px Arial, sans-serif;
   }
   .tableHeader {
-    th {
-      background-color: #444444;
-      color: #cccccc;
-      font: bold 14px Arial, sans-serif;
-      height: 22px;
-      cursor: pointer;
-      &:first-child {
-        padding-right: 10px;
-        width: 33px;
-      }
-      &:nth-child(2) {
-        width: 149px;
-      }
-      &:nth-child(3) {
-        width: 113px;
-      }
-      &:nth-child(4) {
-        width: 230px;
-      }
-      &:nth-child(5) {
-        width: 400px;
-      }
+    width: 1200px;
+    tr{
+      display: table;
+      width: 1200px;
+      table-layout: fixed;
+      th {
+        background-color: #444444;
+        color: #cccccc;
+        font: bold 14px Arial, sans-serif;
+        height: 22px;
+        cursor: pointer;
+        &:first-child {
+          padding-right: 10px;
+          width: 33px;
+        }
+        &:nth-child(2) {
+          width: 149px;
+        }
+        &:nth-child(3) {
+          width: 113px;
+        }
+        &:nth-child(4) {
+          width: 230px;
+        }
+        &:nth-child(5) {
+          width: 400px;
+        }
 
-      &:nth-child(6),
-      &:last-child {
-        width: 119px;
-      }
+        &:nth-child(6),
+        &:last-child {
+          width: 119px;
+        }
+    }
+
     }
     .active {
       background-color: #222222;
     }
   }
-  .client {
-    font: 12px Arial, sans-serif;
-    &:nth-child(n+1) {
-      border-bottom: 1px solid grey;
-    }
-    &:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-    .delClient,
-    .editClient{
-      width: 100%;
-      display: block;
-      margin: auto;
-      text-align: center;
-      background-color: #444444;
-      outline:none;
-      color:white;
-      border:none;
-      height:25px;
-      &:active{
-        background-color: #222222;
+  tbody {
+    display: block;
+    height: 139px;
+    width: 1200px;
+    overflow: hidden;
+    overflow-y: auto;
+    .client {
+      font: 12px Arial, sans-serif;
+      display: table;
+      width: 1200px;
+      table-layout: fixed;
+      &:nth-child(n+1) {
+        border-bottom: 1px solid grey;
+      }
+      &:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      td{
+        &:first-child {
+          padding-right: 10px;
+          width: 33px;
+        }
+        &:nth-child(2) {
+          width: 149px;
+        }
+        &:nth-child(3) {
+          width: 113px;
+        }
+        &:nth-child(4) {
+          width: 230px;
+        }
+        &:nth-child(5) {
+          width: 400px;
+        }
+      }
+      .delClient,
+      .editClient {
+        width: 100%;
+        display: block;
+        margin: auto;
+        text-align: center;
+        background-color: #444444;
+        outline: none;
+        color: white;
+        border: none;
+        height: 25px;
+        &:active {
+          background-color: #222222;
+        }
       }
     }
   }

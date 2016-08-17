@@ -2,7 +2,7 @@
     'use strict';
     
     function HeaderItem(options) {
-        this.el = document.createElement('TR');
+        this.el = document.createElement('THEAD');
         this.el.className = 'tableHeader';
         this.collection = options.collection;
         this.sortBy = options.sortBy;
@@ -13,8 +13,9 @@
     }
 
     HeaderItem.prototype.templ = function (element) {
-        var fragment = document.createDocumentFragment();
+        var tr = document.createElement("TR");
 
+        var fragment = document.createDocumentFragment();
         var idElement = document.createElement('TH');
         idElement.id = 'id';
         idElement.dataset.sortBy = 'id';
@@ -55,7 +56,8 @@
         editElement.textContent = 'Edit';
         fragment.appendChild(editElement);
 
-        element.appendChild(fragment);
+        tr.appendChild(fragment);
+        element.appendChild(tr);
     };
 
     HeaderItem.prototype.render = function () {
