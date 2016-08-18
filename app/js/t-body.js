@@ -1,20 +1,49 @@
 ;(function (App) {
     'use strict';
-   
+
     function TableBody(options) {
         App.Views.EventCollection.call(this);
         this.el = document.createElement('TBODY');
         this.el.className = 'tableBody';
         this.collection = options.collection;
+        this.loadingSettings = options.loadingSettings;
         this.table = options.table;
         this.rowItems = [];
         this.el.addEventListener('click', this.delEditHandlers.bind(this));
+        this.el.addEventListener('scroll',this.scrollHandler.bind(this));
+        this.addEventListener('loadFinished', this.addAjaxClients.bind(this));
         this.addEventListener('reverse', this.reverse.bind(this));
         this.addEventListener('columnSort', this.sort.bind(this));
         this.render();
     }
 
     TableBody.prototype = Object.create(App.Views.EventCollection.prototype);
+
+    TableBody.prototype.scrollHandler = function() {
+        clearTimeout(this.scrollTimerId);
+        var self = this;
+        this.scrollTimerId = setTimeout(function () {
+            if (!self.loadingSettings.loadingInProgress) {
+                if (self.el.scrollHeight - (self.el.scrollTop + self.el.offsetHeight) <= 500) {
+                    if (!self.loadingSettings.totalItems ||
+                        (self.loadingSettings.totalItems > (self.loadingSettings.page + 1) * self.loadingSettings.pageSize)) {
+                        self.loadingSettings.page++;
+                        self.triggerEvent('loadingStart'); //send query on server handler
+                    } else {
+                        self.loadingSettings.allPagesLoaded = true;
+                    }
+                }
+            }
+        }, 200);
+    };
+
+    TableBody.prototype.addAjaxClients = function (clients) {
+        var self = this;
+        clients.forEach(function (item) {
+            self.collection.push(item);
+        });
+        this.render();
+    };
 
     TableBody.prototype.clearTBody = function () {
         this.el.innerHTML = '';
@@ -70,7 +99,6 @@
         this.render();
     };
 
-
     TableBody.prototype.delEditHandlers = function (e) {
         if (e.target.className === 'delClient') {
             this.deleteRow(e);
@@ -82,7 +110,6 @@
             this.triggerEvent('edit', model);
         }
     };
-
 
     TableBody.prototype.deleteRow = function (e) {
         var row = e.target.closest('TR');
@@ -119,7 +146,7 @@
         });
         return colIndex;
     };
-    
+
     App.Views.TableBody = TableBody;
 })(App);
 

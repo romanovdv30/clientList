@@ -1,72 +1,46 @@
-;(function (App,w) {
+;(function (App, w) {
     'use strict';
 
-    function AppLayout(options) {
-        this.collection = options.collection;
+    function AppLayout() {
+        this.collection = [];
+        this.loadingSettings = {
+            loadingInProgress: false,
+            page: 0,
+            pageSize: 10,
+            allPagesLoaded: false
+        };
         this.table = new App.Views.TableView({
-            collection: this.collection
+            collection: this.collection,
+            loadingSettings:  this.loadingSettings
         });
         this.tBody = this.table.tBody;
         this.button = document.createElement('BUTTON');
         this.tBody.addEventListener('edit', this.editModel.bind(this));
-        this.tBody.el.addEventListener('scroll', this.scrollHandler.bind(this));
-        this.loadingSettings = {
-            loadingInProgress: false,
-            page: 0,
-            pageSize: 5,
-            totalItems: 12,
-            allPagesLoaded: false
-        };
+        this.tBody.addEventListener('loadingStart', this.loadClients.bind(this));
+        
     }
 
-    AppLayout.prototype.scrollHandler = function () {
-        clearTimeout(this.scrollTimerId);
-        var self = this;
-        this.scrollTimerId = setTimeout(function () {
-            if (!self.loadingSettings.loadingInProgress) {
-                if (self.tBody.el.scrollHeight - (self.tBody.el.scrollTop + self.tBody.el.offsetHeight) <= 336) {
-                    if (!self.loadingSettings.totalItems ||
-                        (self.loadingSettings.totalItems > (self.loadingSettings.page + 1) * self.loadingSettings.pageSize)) {
-                        self.loadingSettings.page++;
-                        self.loadClients(self.loadingSettings); //послать запрос на сервер
-                    } else {
-                        self.loadingSettings.allPagesLoaded = true;
-                    }
-                }
-            }
-        }, 200);
-    };
-
-    AppLayout.prototype.loadClients = function (settings) {
-        var self = this;
-        function statusHandler() {
-            /*jshint validthis:true */
-            if (this.readyState !== 4) {
+    AppLayout.prototype.loadClients = function () {
+        var self = this; 
+        var xhr = new XMLHttpRequest();
+        var body = 'page=' + encodeURIComponent(this.loadingSettings.page + '') +
+        '&pageSize='+  encodeURIComponent(this.loadingSettings.pageSize + '');
+        xhr.open('POST', 'http://localhost:4000/listUsers', true);
+        xhr.send(body);
+        function readyStateChangeHandler () {
+            if (xhr.readyState !== 4) {
                 return;
             }
-            if (this.status >= 200 && this.status < 300) {
-                var clients = JSON.parse(this.responseText);
-                clients = clients.splice((settings.pageSize*settings.page) + 1, 5);
-                self.addAjaxClients(clients);
+            if (xhr.status >= 200 && xhr.status < 300) {
+                var pageResult = JSON.parse(xhr.responseText);
+                var clients = pageResult.result;
+                self.loadingSettings.totalItems = pageResult.totalItems;
+                self.tBody.triggerEvent('loadFinished', clients);
             } else {
-                w.alert('error: ' + (this.status ? this.statusText : 'problems with request'));
+                w.alert('error: ' + (xhr.status ? xhr.statusText : 'problems with request'));
             }
         }
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:4000/listUsers', true);
-        xhr.send();
-        xhr.onreadystatechange = statusHandler.bind(xhr);
-
-    };
-
-    AppLayout.prototype.addAjaxClients = function (clients) {
-        var self = this;
-        clients.forEach(function(item){
-            self.collection.push(item);
-        });
-
-        this.tBody.render();
+        xhr.addEventListener('readystatechange', readyStateChangeHandler);
     };
 
     AppLayout.prototype.createButton = function () {

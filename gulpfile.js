@@ -57,7 +57,7 @@ gulp.task('hint', function () {
         .pipe(jsHint.reporter(stylish));
 });
 
-gulp.task('watch', ['server', 'less'], function () {
+gulp.task('watch', ['server'], function () {
     gulp.watch('app/less/**/*.less', ['less']);
 });
 
@@ -69,3 +69,5 @@ gulp.task('server', ['build'], function () {
         server.notify(event);
     });
 });
+
+gulp.task('default', ['server']);
