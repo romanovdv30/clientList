@@ -6,12 +6,12 @@
         this.el = document.createElement('TBODY');
         this.el.className = 'tableBody';
         this.collection = options.collection;
-        this.loadingSettings = options.loadingSettings;
+        this.loadingSettings = options.settings;
         this.table = options.table;
         this.rowItems = [];
         this.el.addEventListener('click', this.delEditHandlers.bind(this));
-        this.el.addEventListener('scroll',this.scrollHandler.bind(this));
-        this.addEventListener('loadFinished', this.addAjaxClients.bind(this));
+        this.el.addEventListener('scroll', this.scrollHandler.bind(this));
+        this.addEventListener('loadFinished', this.updateTable.bind(this));
         this.addEventListener('reverse', this.reverse.bind(this));
         this.addEventListener('columnSort', this.sort.bind(this));
         this.render();
@@ -19,7 +19,7 @@
 
     TableBody.prototype = Object.create(App.Views.EventCollection.prototype);
 
-    TableBody.prototype.scrollHandler = function() {
+    TableBody.prototype.scrollHandler = function () {
         clearTimeout(this.scrollTimerId);
         var self = this;
         this.scrollTimerId = setTimeout(function () {
@@ -37,7 +37,7 @@
         }, 200);
     };
 
-    TableBody.prototype.addAjaxClients = function (clients) {
+    TableBody.prototype.updateTable = function (clients) {
         var self = this;
         clients.forEach(function (item) {
             self.collection.push(item);
@@ -105,10 +105,16 @@
         }
         if (e.target.className === 'editClient') {
             var row = e.target.closest('TR');
-            var colIndex = this.findColIndex(row);
-            var model = this.collection[colIndex];
-            this.triggerEvent('edit', model);
+            var index = +row.dataset.id;
+            App.Request.getUser({
+                success: this.onGetModel.bind(this),
+                error: this.onDelEditError.bind(this)
+            }, {id: index});
         }
+    };
+    
+    TableBody.prototype.onGetModel = function (model) {
+        this.triggerEvent('edit', model);
     };
 
     TableBody.prototype.deleteRow = function (e) {
@@ -117,14 +123,32 @@
             return false;
         }
         var colIndex = this.findColIndex(row);
-        this.collection.splice(colIndex, 1);
+        var index = +row.dataset.id;
         if (this.collection.length === 0) {
             this.render();
         } else {
-            var rowIndex = this.findRowIndex(row);
-            this.rowItems[rowIndex].destroy();
-            this.rowItems.splice(rowIndex, 1);
+            App.Request.deleteUser({
+                success: this.eraseRow.bind(this, row, colIndex),
+                error: this.onDelEditError.bind(this)
+            }, {id: index});
         }
+    };
+
+    TableBody.prototype.eraseRow = function (row, colIndex, result) {
+        var self = this;
+        if (this.collection.length === 10) {
+          self.scrollHandler();
+        }
+        var rowIndex = this.findRowIndex(row);
+        console.log('model with id: ' + result.id + 'was deleted');
+        this.collection.splice(colIndex, 1);
+        this.rowItems[rowIndex].destroy();
+        this.rowItems.splice(rowIndex, 1);
+
+    };
+
+    TableBody.prototype.onDelEditError = function (message) {
+        console.log(message);
     };
 
     TableBody.prototype.findRowIndex = function (row) {

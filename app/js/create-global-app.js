@@ -5,6 +5,8 @@
         Collections: {
             clients:[]
         },
-        Views: {}
+        Views: {},
+        Models:{},
+        Routers: {}
     };
 })(window);

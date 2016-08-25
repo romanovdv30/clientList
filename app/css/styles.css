@@ -33,18 +33,15 @@ body {
   width: 33px;
 }
 .list .tableHeader tr th:nth-child(2) {
-  width: 149px;
+  width: 120px;
 }
 .list .tableHeader tr th:nth-child(3) {
-  width: 113px;
+  width: 167px;
 }
 .list .tableHeader tr th:nth-child(4) {
   width: 230px;
 }
-.list .tableHeader tr th:nth-child(5) {
-  width: 400px;
-}
-.list .tableHeader tr th:nth-child(6),
+.list .tableHeader tr th:nth-child(5),
 .list .tableHeader tr th:last-child {
   width: 119px;
 }
@@ -75,16 +72,17 @@ body {
   width: 33px;
 }
 .list tbody .client td:nth-child(2) {
-  width: 149px;
+  width: 120px;
 }
 .list tbody .client td:nth-child(3) {
-  width: 113px;
+  width: 167px;
 }
 .list tbody .client td:nth-child(4) {
   width: 230px;
 }
-.list tbody .client td:nth-child(5) {
-  width: 400px;
+.list tbody .client td:nth-child(5),
+.list tbody .client td:last-child {
+  width: 119px;
 }
 .list tbody .client .delClient,
 .list tbody .client .editClient {
@@ -107,8 +105,10 @@ body {
   text-align: center;
   font: 20px Arial, sans-serif;
   border: 1px solid grey;
-  width: 100%;
-  height: 100px;
+}
+.list .dummy td {
+  width: 1200px;
+  height: 274px;
 }
 .addClient {
   width: 100px;

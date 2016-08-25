@@ -1,46 +1,44 @@
-;(function (App, w) {
+;(function (App) {
     'use strict';
 
     function AppLayout() {
         this.collection = [];
         this.loadingSettings = {
             loadingInProgress: false,
-            page: 0,
-            pageSize: 10,
-            allPagesLoaded: false
+                page: 0,
+                pageSize: 10,
+                allPagesLoaded: false
         };
-        this.table = new App.Views.TableView({
+        this.usersTable = new App.Views.TableView({
             collection: this.collection,
-            loadingSettings:  this.loadingSettings
+            settings: this.loadingSettings
         });
-        this.tBody = this.table.tBody;
+        this.tBody = this.usersTable.tBody;
         this.button = document.createElement('BUTTON');
         this.tBody.addEventListener('edit', this.editModel.bind(this));
-        this.tBody.addEventListener('loadingStart', this.loadClients.bind(this));
-        
+        this.tBody.addEventListener('loadingStart', this.loadUsers.bind(this));
     }
 
-    AppLayout.prototype.loadClients = function () {
-        var self = this; 
-        var xhr = new XMLHttpRequest();
-        var body = 'page=' + encodeURIComponent(this.loadingSettings.page + '') +
-        '&pageSize='+  encodeURIComponent(this.loadingSettings.pageSize + '');
-        xhr.open('POST', 'http://localhost:4000/listUsers', true);
-        xhr.send(body);
-        function readyStateChangeHandler () {
-            if (xhr.readyState !== 4) {
-                return;
-            }
-            if (xhr.status >= 200 && xhr.status < 300) {
-                var pageResult = JSON.parse(xhr.responseText);
-                var clients = pageResult.result;
-                self.loadingSettings.totalItems = pageResult.totalItems;
-                self.tBody.triggerEvent('loadFinished', clients);
-            } else {
-                w.alert('error: ' + (xhr.status ? xhr.statusText : 'problems with request'));
-            }
-        }
-        xhr.addEventListener('readystatechange', readyStateChangeHandler);
+    AppLayout.prototype.loadUsers = function () {
+        var self = this;
+        App.Request.loadUsers({
+            success: self.onLoad.bind(self),
+            error: self.onError.bind(self)
+        }, self.loadingSettings);
+    };
+
+    AppLayout.prototype.onLoad = function (result) {
+        var self = this;
+        self.loadingSettings.totalItems = result.totalItems;
+        var users = result.result;
+        var modelsCollection = users.map(function (user) {
+            return new App.Models.User(user);
+        });
+        this.usersTable.tBody.triggerEvent('loadFinished', modelsCollection);
+    };
+
+    AppLayout.prototype.onError = function (errorText) {
+        console.log(errorText);
     };
 
     AppLayout.prototype.createButton = function () {
@@ -55,16 +53,18 @@
         if (popup) {
             return false;
         }
+        
         var form = new App.Views.FormView({
             collection: this.collection,
-            table: this.table,
+            table: this.usersTable,
+            loadingSettings: this.loadingSettings,
             model: {}
         });
         document.body.appendChild(form.render());
     };
 
     AppLayout.prototype.render = function () {
-        document.body.appendChild(this.table.render());
+        document.body.appendChild(this.usersTable.render());
         document.body.appendChild(this.createButton());
     };
 
@@ -83,7 +83,7 @@
         }
         var form = new App.Views.FormView({
             collection: this.collection,
-            table: this.table,
+            table:  this.usersTable,
             model: model
         });
 

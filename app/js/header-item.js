@@ -27,13 +27,7 @@
         nameElement.dataset.sortBy = 'name';
         nameElement.textContent = 'Name';
         fragment.appendChild(nameElement);
-
-        var phoneElement = document.createElement('TH');
-        phoneElement.id = 'phone';
-        phoneElement.dataset.sortBy = 'phone';
-        phoneElement.textContent = 'Phone';
-        fragment.appendChild(phoneElement);
-
+       
         var emailElement = document.createElement('TH');
         emailElement.id = 'email';
         emailElement.dataset.sortBy = 'email';

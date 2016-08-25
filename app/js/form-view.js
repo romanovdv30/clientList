@@ -5,6 +5,7 @@
         this.el = document.createElement('DIV');
         this.el.className = 'popup';
         this.collection = options.collection;
+        this.loadingSettings = options.loadingSettings || {};
         this.model = options.model;
         this.table = options.table;
         this.addFormListeners(this.el);
@@ -33,12 +34,6 @@
         labelPhone.setAttribute('for', 'phone-input');
         labelPhone.textContent = 'Enter client Phone';
         form.appendChild(labelPhone);
-
-        var inputPhone = document.createElement('INPUT');
-        inputPhone.setAttribute('type', 'text');
-        inputPhone.value = model.phone || '';
-        inputPhone.id = 'phone-input';
-        form.appendChild(inputPhone);
 
         var labelEmail = document.createElement('LABEL');
         labelEmail.setAttribute('for', 'email-input');
@@ -116,30 +111,74 @@
     };
 
     FormView.prototype.saveEdit = function () {
-        this.model.name = this.name.value;
-        this.model.phone = this.phone.value;
-        this.model.email = this.email.value;
-        this.model.date = this.date.value || this.model.date;
-        this.table.tBody.render();
-        this.clearForm();
-    };
-
-    FormView.prototype.addNewClient = function () {
-        var id = this.collection.length + 1;
-        var rowItem = {
-            id: id,
+        var model = {
+            admin:false,
+            id:this.model.id,
             name: this.name.value,
-            phone: this.phone.value,
             email: this.email.value,
             date: this.date.value || '2030'
         };
-        this.table.addClient(rowItem);
+        var self = this;
+        App.Request.editUser({
+            success:self.onEditSuccess.bind(self),
+            error:self.onEditError.bind(self)
+        },{ model: model});        
+    };
+
+    FormView.prototype.onEditSuccess = function (model) {
+        var colIndex;
+        this.collection.forEach(function(item,index){
+            if(+model.id === item.id){
+                colIndex = index;
+            }
+        });
+        model = new App.Models.User(model);
+        this.collection.splice(colIndex,1,model);
+        this.table.tBody.render();
+        this.clearForm();
+        console.log('The model with id: ' + model.id + 'was edited');
+    };
+
+    FormView.prototype.onEditError = function (model) {
+        var id = model.id;
+        console.log('Error with editing model whith id:'+ id);
+    };
+
+
+
+    FormView.prototype.addNewClient = function () {
+        var id = this.collection.length + 1;
+        var model = {
+            id: id,
+            name: this.name.value,
+            email: this.email.value,
+            date: this.date.value || '2030'
+        };
+        var self = this;
+        App.Request.addUser({
+            success: self.onSuccessLoad.bind(self),
+            error:self.onErrorLoad
+        },{ model: model});
+    };
+
+    FormView.prototype.onSuccessLoad = function (model) {
+        this.collection.length = 0;
+        this.table.tBody.el.scrollTop = 0;
+        this.loadingSettings.page = 0;
+        this.loadingSettings.allPagesLoaded = false;
+        console.log(model);
+        this.collection.length = 0;
+        this.table.tBody.triggerEvent('loadingStart');
         this.clearForm();
     };
 
+    FormView.prototype.onErrorLoad = function (response) {
+        console.log(response);
+    };
+
+
     FormView.prototype.clearForm = function () {
         this.name.value = '';
-        this.phone.value = '';
         this.email.value = '';
         this.date.value = '';
         this.removePopup();
@@ -151,4 +190,5 @@
     };
 
     App.Views.FormView = FormView;
+
 })(App);

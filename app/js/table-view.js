@@ -5,11 +5,11 @@
         this.el = document.createElement('TABLE');
         this.el.className = 'list';
         this.collection = options.collection;
-        this.loadingSettings = options.loadingSettings;
+        this.loadingSettings = options.settings;
         this.rowItems = [];// rename to rowItems
         this.tBody = new App.Views.TableBody({
             collection: this.collection,
-            loadingSettings:  this.loadingSettings,
+            settings:  this.loadingSettings,
             table: this
         });
         this.header = new App.Views.HeaderItem({
@@ -32,7 +32,7 @@
 
     TableView.prototype.createCaption = function () {
         var captionElement = document.createElement('CAPTION');
-        captionElement.textContent = 'Clients List';
+        captionElement.textContent = 'Users List';
         this.el.appendChild(captionElement);
     };
 
