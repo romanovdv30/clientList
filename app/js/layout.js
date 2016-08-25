@@ -16,6 +16,7 @@
         this.tBody = this.usersTable.tBody;
         this.button = document.createElement('BUTTON');
         this.tBody.addEventListener('edit', this.editModel.bind(this));
+        // this.tBody.addEventListener('delete', this.deleteModel.bind(this));
         this.tBody.addEventListener('loadingStart', this.loadUsers.bind(this));
     }
 
@@ -73,7 +74,7 @@
 
         function changeForm() {
             var popup = document.querySelector('.popup');
-            popup.querySelector('h3').textContent = 'Edit Client';
+            popup.querySelector('h3').textContent = 'Edit';
             popup.querySelector('.add-btn').style.display = 'none';
             popup.querySelector('.edit-btn').style.display = 'inline';
         }

@@ -2,6 +2,8 @@
     'use strict';
 
     var baseUrl = 'http://localhost:4000/';
+    var modelsName = 'users';
+    var modelName = 'user';
 
     App.Request = {    
         loadUsers: function (settings,  loadingSettings) {
@@ -9,7 +11,7 @@
             return new App.Request.ServerRequest(
                 {
                     method: 'POST',
-                    URL: baseUrl + 'users',
+                    URL: baseUrl + modelsName,
                     params: loadingSettings,
                     settings: settings
                 });
@@ -18,7 +20,7 @@
             return new App.Request.ServerRequest(
                 {
                     method: 'POST',
-                    URL: baseUrl + 'user',
+                    URL: baseUrl + modelName,
                     settings: settings,
                     params:params
                 });
@@ -27,7 +29,7 @@
             return new App.Request.ServerRequest(
                 {
                     method: 'DELETE',
-                    URL: baseUrl + 'user',
+                    URL: baseUrl + modelName,
                     settings: settings,
                     params: params
                 });
@@ -36,7 +38,7 @@
             return new App.Request.ServerRequest(
                 {
                     method: 'GET',
-                    URL: baseUrl + 'user',
+                    URL: baseUrl + modelName,
                     settings: settings,
                     params: params
                 });
@@ -45,7 +47,7 @@
             return new App.Request.ServerRequest(
                 {
                     method: 'PUT',
-                    URL: baseUrl + 'user',
+                    URL: baseUrl + modelName,
                     settings: settings,
                     params: params
                 });
