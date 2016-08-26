@@ -2,97 +2,178 @@
     'use strict';
 
     function AppLayout() {
-        this.collection = [];
-        this.loadingSettings = {
+        this.usersCollection = [];
+        this.adminsCollection = [];
+        
+        this.usersLoadingSettings = {
             loadingInProgress: false,
             page: 0,
             pageSize: 10,
             allPagesLoaded: false
         };
-        this.usersTable = new App.Views.TableView({
-            collection: this.collection,
-            settings: this.loadingSettings
+        this.adminsLoadingSettings = {
+            loadingInProgress: false,
+            page: 0,
+            pageSize: 10,
+            allPagesLoaded: false
+        };
+        
+        this.usersTable = new App.Views.UserTableView({
+            collection: this.usersCollection,
+            settings: this.usersLoadingSettings
         });
-        this.tBody = this.usersTable.tBody;
-        this.button = document.createElement('BUTTON');
-        this.tBody.addEventListener('get', this.getUser.bind(this));
-        this.tBody.addEventListener('delete', this.deleteTableRow.bind(this));
-        this.tBody.addEventListener('loadingStart', this.loadUsers.bind(this));
+        this.adminsTable = new App.Views.AdminTableView({
+            collection: this.adminsCollection,
+            settings: this.adminsLoadingSettings
+        });
+
+        this.usersTBody = this.usersTable.tBody;
+        this.adminsTBody = this.adminsTable.tBody;
+
+        this.usersTBody.addEventListener('get', this.getUser.bind(this));
+        this.usersTBody.addEventListener('delete', this.deleteUserTableRow.bind(this));
+        this.usersTBody.addEventListener('loadingStart', this.loadUsers.bind(this));
+
+        this.adminsTBody.addEventListener('get', this.getAdmin.bind(this));
+        this.adminsTBody.addEventListener('delete', this.deleteAdminTableRow.bind(this));
+        this.adminsTBody.addEventListener('loadingStart', this.loadAdmins.bind(this));
     }
 
-    AppLayout.prototype.deleteTableRow = function (index) {
-        if (this.collection.length === 0) {
-            this.tBody.render();
+    AppLayout.prototype.render = function () {
+        document.body.appendChild(this.usersTable.render());
+        document.body.appendChild(this.createAddUserButton());
+        document.body.appendChild(this.adminsTable.render());
+        document.body.appendChild(this.createAddAdminButton());
+    };
+
+    AppLayout.prototype.deleteUserTableRow = function (index) {
+        if (this.usersCollection.length === 0) {
+            this.usersTBody.render();
         } else {
             App.Request.deleteUser({
-                success: this.eraseRow.bind(this),
+                success: this.eraseUserRow.bind(this),
+                error: this.onError.bind(this)
+            }, {id: index});
+        }
+    };
+
+    AppLayout.prototype.deleteAdminTableRow = function (index) {
+        if (this.usersCollection.length === 0) {
+            this.usersTBody.render();
+        } else {
+            App.Request.deleteAdmin({
+                success: this.eraseAdminRow.bind(this),
                 error: this.onError.bind(this)
             }, {id: index});
         }
     };
     
-    AppLayout.prototype.eraseRow = function (result) {
-        this.tBody.triggerEvent('eraseRow',result);
+    AppLayout.prototype.eraseUserRow = function (result) {
+        this.usersTBody.triggerEvent('eraseRow',result);
     };
-    
+    AppLayout.prototype.eraseAdminRow = function (result) {
+        this.adminsTBody.triggerEvent('eraseRow',result);
+    };
+
     AppLayout.prototype.getUser = function (row) {
         var index = +row.dataset.id;
         App.Request.getUser({
-            success: this.editModel.bind(this),
+            success: this.editUserModel.bind(this),
+            error: this.onError.bind(this)
+        }, {id: index});
+    };
+    AppLayout.prototype.getAdmin = function (row) {
+        var index = +row.dataset.id;
+        App.Request.getUser({
+            success: this.editAdminModel.bind(this),
             error: this.onError.bind(this)
         }, {id: index});
     };
 
+
     AppLayout.prototype.loadUsers = function () {
         var self = this;
         App.Request.loadUsers({
-            success: self.onLoad.bind(self),
+            success: self.onUserLoad.bind(self),
             error: self.onError.bind(self)
-        }, self.loadingSettings);
+        }, self.usersLoadingSettings);
+    };
+    AppLayout.prototype.loadAdmins = function () {
+        var self = this;
+        App.Request.loadAdmins({
+            success: self.onAdminLoad.bind(self),
+            error: self.onError.bind(self)
+        }, self.adminsLoadingSettings);
     };
 
-    AppLayout.prototype.onLoad = function (result) {
+    AppLayout.prototype.onUserLoad = function (result) {
         var self = this;
-        self.loadingSettings.totalItems = result.totalItems;
+        self.usersLoadingSettings.totalItems = result.totalItems;
         var users = result.result;
         var modelsCollection = users.map(function (user) {
             return new App.Models.User(user);
         });
-        this.usersTable.tBody.triggerEvent('loadFinished', modelsCollection);
+        this.usersTBody.triggerEvent('loadFinished', modelsCollection);
+    };
+    AppLayout.prototype.onAdminLoad = function (result) {
+        var self = this;
+        self.adminsLoadingSettings.totalItems = result.totalItems;
+        var users = result.result;
+        var modelsCollection = users.map(function (user) {
+            return new App.Models.Admin(user);
+        });
+        this.adminsTBody.triggerEvent('loadFinished', modelsCollection);
     };
 
     AppLayout.prototype.onError = function (errorText) {
         console.log(errorText);
     };
 
-    AppLayout.prototype.createButton = function () {
-        this.button.className = 'addClient';
-        this.button.textContent = 'Add Client';
-        this.button.addEventListener('click', this.addClient.bind(this));
+    AppLayout.prototype.createAddUserButton = function () {
+        this.button = document.createElement('BUTTON');
+        this.button.className = 'addUser';
+        this.button.textContent = 'Add User';
+        this.button.addEventListener('click', this.addUser.bind(this));
+        return this.button;
+    };
+    AppLayout.prototype.createAddAdminButton = function () {
+        this.button = document.createElement('BUTTON');
+        this.button.className = 'addAdmin';
+        this.button.textContent = 'Add Admin';
+        this.button.addEventListener('click', this.addAdmin.bind(this));
         return this.button;
     };
 
-    AppLayout.prototype.addClient = function () {
+    AppLayout.prototype.addUser = function () {
         var popup = document.querySelector('.popup');
         if (popup) {
             return false;
         }
 
         var form = new App.Views.FormView({
-            collection: this.collection,
+            collection: this.usersCollection,
             table: this.usersTable,
-            loadingSettings: this.loadingSettings,
+            loadingSettings: this.usersLoadingSettings,
+            model: {}
+        });
+        document.body.appendChild(form.render());
+    };
+    AppLayout.prototype.addAdmin = function () {
+        var popup = document.querySelector('.popup');
+        if (popup) {
+            return false;
+        }
+
+        var form = new App.Views.FormView({
+            collection: this.adminsCollection,
+            table: this.adminsTable,
+            loadingSettings: this.adminsLoadingSettings,
             model: {}
         });
         document.body.appendChild(form.render());
     };
 
-    AppLayout.prototype.render = function () {
-        document.body.appendChild(this.usersTable.render());
-        document.body.appendChild(this.createButton());
-    };
-
-    AppLayout.prototype.editModel = function (model) {
+    AppLayout.prototype.editUserModel = function (model) {
         var popup = document.querySelector('.popup');
 
         function changeForm() {
@@ -106,8 +187,30 @@
             return false;
         }
         var form = new App.Views.FormView({
-            collection: this.collection,
+            collection: this.usersCollection,
             table: this.usersTable,
+            model: model
+        });
+
+        document.body.appendChild(form.render());
+        changeForm();
+    };
+    AppLayout.prototype.editUserModel = function (model) {
+        var popup = document.querySelector('.popup');
+
+        function changeForm() {
+            var popup = document.querySelector('.popup');
+            popup.querySelector('h3').textContent = 'Edit';
+            popup.querySelector('.add-btn').style.display = 'none';
+            popup.querySelector('.edit-btn').style.display = 'inline';
+        }
+
+        if (popup) {
+            return false;
+        }
+        var form = new App.Views.FormView({
+            collection: this.adminsCollection,
+            table: this.adminsTable,
             model: model
         });
 

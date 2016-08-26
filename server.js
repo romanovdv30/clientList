@@ -78,6 +78,35 @@ app.post('/user', function (req, res) {
         }
     });
 });
+app.post('/admin', function (req, res) {
+    fs.readFile(pathToAdminsList, 'utf8', function (err, data) {
+        if (err) {
+            return console.log(err);
+        } else {
+            console.log(data);
+            var users = JSON.parse(data);
+            var model = req.body;
+            var maxId = 0;
+            users.forEach(function (item) {
+                if (item["id"] > maxId) {
+                    maxId = item["id"];
+                }
+            });
+            model["id"] = maxId + 1;
+
+            users.push(model);
+            model = JSON.stringify(model);
+            users = JSON.stringify(users);
+
+            fs.writeFile(pathToAdminsList, users, 'utf8', function (err) {
+                if (err) return console.log(err);
+            });
+            addResponseHeaders(res);
+            res.status(201);
+            res.end(model);
+        }
+    });
+});
 
 app.delete('/user', function (req, res) {
     fs.readFile(pathToUsersList, 'utf8', function (err, data) {
@@ -96,6 +125,30 @@ app.delete('/user', function (req, res) {
             var deletedModel = users.splice(removeIndex, 1)[0];
             users = JSON.stringify(users);
             fs.writeFile(pathToUsersList, users, 'utf8', function (err) {
+                if (err) return console.log(err);
+            });
+            addResponseHeaders(res);
+            res.end(JSON.stringify(deletedModel));
+        }
+    });
+});
+app.delete('/admin', function (req, res) {
+    fs.readFile(pathToAdminsList, 'utf8', function (err, data) {
+        if (err) {
+            return console.log(err);
+        } else {
+            console.log(data);
+            var id = parseInt(req.body.id);
+            var users = JSON.parse(data);
+            var removeIndex;
+            users.forEach(function (item, index) {
+                if (item['id'] === id) {
+                    removeIndex = index;
+                }
+            });
+            var deletedModel = users.splice(removeIndex, 1)[0];
+            users = JSON.stringify(users);
+            fs.writeFile(pathToAdminsList, users, 'utf8', function (err) {
                 if (err) return console.log(err);
             });
             addResponseHeaders(res);
@@ -125,6 +178,28 @@ app.post('/users', function (req, res) {
         }
     });
 });
+app.post('/admins', function (req, res) {
+    fs.readFile(pathToAdminsList, 'utf8', function (err, data) {
+        if (err) {
+            if (err) return console.log(err);
+        } else {
+            console.log(data);
+            var page = parseInt(req.body.page, 10) || 0;
+            var pageSize = parseInt(req.body.pageSize, 10) || 10;
+            var users = JSON.parse(data);
+            var totalItems = users.length;
+            var result = users.splice((pageSize * page) + 1, pageSize);
+            addResponseHeaders(res);
+            var dataObj = {
+                totalItems: totalItems,
+                page: page,
+                result: result
+            };
+            res.end(JSON.stringify(dataObj));
+        }
+    });
+});
+
 app.put('/user', function (req, res) {
     fs.readFile(pathToUsersList, 'utf8', function (err, data) {
         if (err) {
@@ -154,8 +229,58 @@ app.put('/user', function (req, res) {
         }
     });
 });
+app.put('/admin', function (req, res) {
+    fs.readFile(pathToAdminsList, 'utf8', function (err, data) {
+        if (err) {
+            return console.log(err);
+        } else {
+            console.log(data);
+            var users = JSON.parse(data);
+            var model = req.body;
+            var id = +parseInt(model['id']);
+            model.id = id;
+            var findIndex;
+            users.forEach(function (item, index) {
+                if (item['id'] === id) {
+                    findIndex = index;
+                }
+            });
+            users.splice(findIndex, 1, model);
+            users = JSON.stringify(users);
+
+            fs.writeFile(pathToAdminsList, users, 'utf8', function (err) {
+                if (err) return console.log(err);
+            });
+            model = JSON.stringify(model);
+            addResponseHeaders(res);
+            res.status(200);
+            res.end(model);
+        }
+    });
+});
+
 app.get('/user', function (req, res) {
     fs.readFile(pathToUsersList, 'utf8', function (err, data) {
+        if (err) {
+            return console.log(err);
+        } else {
+            console.log(data);
+            var users = JSON.parse(data);
+            var id = parseInt(req.query.id);
+            var findIndex;
+            users.forEach(function (item, index) {
+                if (item.id === id) {
+                    findIndex = index;
+                }
+            });
+            var result = users[findIndex];
+            addResponseHeaders(res);
+            res.end(JSON.stringify(result));
+        }
+    });
+});
+app.get('/admin', function (req, res) {
+    fs.readFile(pathToAdminsList, 'utf8', function (err, data) {
         if (err) {
             return console.log(err);
         } else {

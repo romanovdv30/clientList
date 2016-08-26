@@ -34,7 +34,7 @@
 
                 var buttonElement = document.createElement('BUTTON');
                 buttonElement.className = 'delClient';
-                buttonElement.textContent = 'Delete client';
+                buttonElement.textContent = 'Delete';
                 delElement.appendChild(buttonElement);
                 return delElement;
             },
@@ -44,7 +44,7 @@
 
                 var editButton = document.createElement('BUTTON');
                 editButton.className = 'editClient';
-                editButton.textContent = 'Edit client';
+                editButton.textContent = 'Edit';
                 editElement.appendChild(editButton);
                 return editElement;
             }
@@ -62,5 +62,5 @@
         return fragment;
     };
 
-    App.Models.Template = UserTemplate;
+    App.Models.UserTemplate = UserTemplate;
 })(App);

@@ -2,11 +2,8 @@
     'use strict';
     
     w.App = {
-        Collections: {
-            clients:[]
-        },
         Views: {},
-        Models:{},
-        Routers: {}
+        Models:{}
+        
     };
 })(window);

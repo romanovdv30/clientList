@@ -1,6 +1,6 @@
 ;(function (App) {
     'use strict';
-    function HeaderItem(options) {
+    function UserHeaderItem(options) {
         this.el = document.createElement('THEAD');
         this.el.className = 'tableHeader';
         this.collection = options.collection;
@@ -51,10 +51,10 @@
             }
         };
         this.addHeaderListeners.call(this);
-        this.render();
+
     }
 
-    HeaderItem.prototype.render = function () {
+    UserHeaderItem.prototype.render = function () {
         var tr = document.createElement('TR');
         var fragment = document.createDocumentFragment();
         var arr = this.renderOrder;
@@ -65,14 +65,14 @@
         }
         tr.appendChild(fragment);
         this.el.appendChild(tr);
-        return this;
+        return this.el;
     };
 
-    HeaderItem.prototype.addHeaderListeners = function () {
+    UserHeaderItem.prototype.addHeaderListeners = function () {
         this.el.addEventListener('click', this.headerFilterHandler.bind(this));
     };
 
-    HeaderItem.prototype.headerFilterHandler = function (e) {
+    UserHeaderItem.prototype.headerFilterHandler = function (e) {
         function removeActive() {
             var ths = e.target.parentElement.children;
             for (var i = 0; i < ths.length; i++) {
@@ -90,5 +90,5 @@
             this.table.tBody.triggerEvent('columnSort', e.target.dataset.sortBy); //repacewith dispatch event
         }
     };
-    App.Views.HeaderItem = HeaderItem;
+    App.Views.UserHeaderItem = UserHeaderItem;
 })(App);
