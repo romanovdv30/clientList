@@ -14,6 +14,7 @@
         this.addEventListener('loadFinished', this.updateTable.bind(this));
         this.addEventListener('reverse', this.reverse.bind(this));
         this.addEventListener('columnSort', this.sort.bind(this));
+        this.addEventListener('eraseRow', this.eraseRow.bind(this));
         this.render();
     }
 
@@ -100,71 +101,45 @@
     };
 
     TableBody.prototype.delEditHandlers = function (e) {
+       this.row = e.target.closest('TR');
+        var index = +this.row.dataset.id;
         if (e.target.className === 'delClient') {
-            this.deleteRow(e);
+            this.triggerEvent('delete',index);
         }
         if (e.target.className === 'editClient') {
-            var row = e.target.closest('TR');
-            var index = +row.dataset.id;
-            App.Request.getUser({
-                success: this.onGetModel.bind(this),
-                error: this.onDelEditError.bind(this)
-            }, {id: index});
-        }
-    };
-    
-    TableBody.prototype.onGetModel = function (model) {
-        this.triggerEvent('edit', model);
-    };
-
-    TableBody.prototype.deleteRow = function (e) {
-        var row = e.target.closest('TR');
-        if (e.target.className !== 'delClient') {
-            return false;
-        }
-        var colIndex = this.findColIndex(row);
-        var index = +row.dataset.id;
-        if (this.collection.length === 0) {
-            this.render();
-        } else {
-            App.Request.deleteUser({
-                success: this.eraseRow.bind(this, row, colIndex),
-                error: this.onDelEditError.bind(this)
-            }, {id: index});
+            this.triggerEvent('get',this.row);
         }
     };
 
-    TableBody.prototype.eraseRow = function (row, colIndex, result) {
+    TableBody.prototype.eraseRow = function (result) {
         var self = this;
+        var colIndex = this.findColIndex();
         if (this.collection.length === 10) {
-          self.scrollHandler();
+            self.scrollHandler();
         }
-        var rowIndex = this.findRowIndex(row);
+        var rowIndex = this.findRowIndex();
         console.log('model with id: ' + result.id + 'was deleted');
         this.collection.splice(colIndex, 1);
         this.rowItems[rowIndex].destroy();
         this.rowItems.splice(rowIndex, 1);
-
     };
 
-    TableBody.prototype.onDelEditError = function (message) {
-        console.log(message);
-    };
-
-    TableBody.prototype.findRowIndex = function (row) {
+    TableBody.prototype.findRowIndex = function () {
         var rowIndex;
+        var self = this;
         this.rowItems.forEach(function (item, index) {
-            if (+row.dataset.id === item.model.id) {
+            if (+self.row.dataset.id === item.model.id) {
                 rowIndex = index;
             }
         });
         return rowIndex;
     };
 
-    TableBody.prototype.findColIndex = function (row) {
+    TableBody.prototype.findColIndex = function () {
         var colIndex;
+        var self = this;
         this.collection.forEach(function (item, index) {
-            if (+row.dataset.id === item.id) {
+            if (+self.row.dataset.id === item.id) {
                 colIndex = index;
             }
         });

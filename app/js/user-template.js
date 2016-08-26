@@ -1,6 +1,8 @@
 ;(function (App) {
     'use strict';
     function UserTemplate(model) {
+        this.model = model;
+        var self =this;
         this.fields = {
             id: function () {
                 var idElement = document.createElement('TD');
@@ -23,7 +25,7 @@
             date: function () {
                 var dateElement = document.createElement('TD');
                 dateElement.className = 'client-date';
-                self.timeView = new App.Views.EstimatedDateElement(model.date, dateElement);
+                self.model.timeView = new App.Views.EstimatedDateElement(model.date, dateElement);
                 return dateElement;
             },
             del: function () {

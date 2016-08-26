@@ -5,9 +5,9 @@
         this.collection = [];
         this.loadingSettings = {
             loadingInProgress: false,
-                page: 0,
-                pageSize: 10,
-                allPagesLoaded: false
+            page: 0,
+            pageSize: 10,
+            allPagesLoaded: false
         };
         this.usersTable = new App.Views.TableView({
             collection: this.collection,
@@ -15,10 +15,33 @@
         });
         this.tBody = this.usersTable.tBody;
         this.button = document.createElement('BUTTON');
-        this.tBody.addEventListener('edit', this.editModel.bind(this));
-        // this.tBody.addEventListener('delete', this.deleteModel.bind(this));
+        this.tBody.addEventListener('get', this.getUser.bind(this));
+        this.tBody.addEventListener('delete', this.deleteTableRow.bind(this));
         this.tBody.addEventListener('loadingStart', this.loadUsers.bind(this));
     }
+
+    AppLayout.prototype.deleteTableRow = function (index) {
+        if (this.collection.length === 0) {
+            this.tBody.render();
+        } else {
+            App.Request.deleteUser({
+                success: this.eraseRow.bind(this),
+                error: this.onError.bind(this)
+            }, {id: index});
+        }
+    };
+    
+    AppLayout.prototype.eraseRow = function (result) {
+        this.tBody.triggerEvent('eraseRow',result);
+    };
+    
+    AppLayout.prototype.getUser = function (row) {
+        var index = +row.dataset.id;
+        App.Request.getUser({
+            success: this.editModel.bind(this),
+            error: this.onError.bind(this)
+        }, {id: index});
+    };
 
     AppLayout.prototype.loadUsers = function () {
         var self = this;
@@ -54,7 +77,7 @@
         if (popup) {
             return false;
         }
-        
+
         var form = new App.Views.FormView({
             collection: this.collection,
             table: this.usersTable,
@@ -84,7 +107,7 @@
         }
         var form = new App.Views.FormView({
             collection: this.collection,
-            table:  this.usersTable,
+            table: this.usersTable,
             model: model
         });
 
