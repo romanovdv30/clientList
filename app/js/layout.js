@@ -84,12 +84,12 @@
     };
     AppLayout.prototype.getAdmin = function (row) {
         var index = +row.dataset.id;
-        App.Request.getUser({
+
+        App.Request.getAdmin({
             success: this.editAdminModel.bind(this),
             error: this.onError.bind(this)
         }, {id: index});
     };
-
 
     AppLayout.prototype.loadUsers = function () {
         var self = this;
@@ -145,12 +145,12 @@
     };
 
     AppLayout.prototype.addUser = function () {
-        var popup = document.querySelector('.popup');
+        var popup = document.querySelector('.userPopup');
         if (popup) {
             return false;
         }
 
-        var form = new App.Views.FormView({
+        var form = new App.Views.UserFormView({
             collection: this.usersCollection,
             table: this.usersTable,
             loadingSettings: this.usersLoadingSettings,
@@ -159,12 +159,12 @@
         document.body.appendChild(form.render());
     };
     AppLayout.prototype.addAdmin = function () {
-        var popup = document.querySelector('.popup');
+        var popup = document.querySelector('.adminPopup');
         if (popup) {
             return false;
         }
 
-        var form = new App.Views.FormView({
+        var form = new App.Views.AdminFormView({
             collection: this.adminsCollection,
             table: this.adminsTable,
             loadingSettings: this.adminsLoadingSettings,
@@ -174,10 +174,10 @@
     };
 
     AppLayout.prototype.editUserModel = function (model) {
-        var popup = document.querySelector('.popup');
+        var popup = document.querySelector('.userPopup');
 
         function changeForm() {
-            var popup = document.querySelector('.popup');
+            var popup = document.querySelector('.userPopup');
             popup.querySelector('h3').textContent = 'Edit';
             popup.querySelector('.add-btn').style.display = 'none';
             popup.querySelector('.edit-btn').style.display = 'inline';
@@ -186,7 +186,7 @@
         if (popup) {
             return false;
         }
-        var form = new App.Views.FormView({
+        var form = new App.Views.UserFormView({
             collection: this.usersCollection,
             table: this.usersTable,
             model: model
@@ -195,20 +195,19 @@
         document.body.appendChild(form.render());
         changeForm();
     };
-    AppLayout.prototype.editUserModel = function (model) {
-        var popup = document.querySelector('.popup');
-
+    AppLayout.prototype.editAdminModel = function (model) {
+        var popup = document.querySelector('.adminPopup');
         function changeForm() {
-            var popup = document.querySelector('.popup');
+            var popup = document.querySelector('.adminPopup');
             popup.querySelector('h3').textContent = 'Edit';
-            popup.querySelector('.add-btn').style.display = 'none';
-            popup.querySelector('.edit-btn').style.display = 'inline';
+            popup.querySelector('.add-admin-btn').style.display = 'none';
+            popup.querySelector('.edit-admin-btn').style.display = 'inline';
         }
 
         if (popup) {
             return false;
         }
-        var form = new App.Views.FormView({
+        var form = new App.Views.AdminFormView({
             collection: this.adminsCollection,
             table: this.adminsTable,
             model: model

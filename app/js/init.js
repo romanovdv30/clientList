@@ -8,4 +8,4 @@
         layout.render();
     }
     document.addEventListener('DOMContentLoaded', createLayout);
-})(App,document)
+})(App,document);

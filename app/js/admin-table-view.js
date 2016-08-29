@@ -2,7 +2,7 @@
     'use strict';
     function AdminTableView(options){
         App.Views.UserTableView.call(this,options);
-        this.el.className = 'admins-list';
+        this.el.className = 'admins-table';
         this.header = new App.Views.AdminHeaderItem({
             collection: this.collection,
             table: this

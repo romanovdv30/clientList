@@ -28,21 +28,21 @@ body {
   height: 22px;
   cursor: pointer;
 }
-.list .tableHeader tr th:first-child {
+.list .tableHeader tr th.id {
   padding-right: 10px;
   width: 33px;
 }
-.list .tableHeader tr th:nth-child(2) {
+.list .tableHeader tr th.name {
   width: 120px;
 }
-.list .tableHeader tr th:nth-child(3) {
+.list .tableHeader tr th.email {
   width: 167px;
 }
-.list .tableHeader tr th:nth-child(4) {
+.list .tableHeader tr th.date {
   width: 230px;
 }
-.list .tableHeader tr th:nth-child(5),
-.list .tableHeader tr th:last-child {
+.list .tableHeader tr th.delete,
+.list .tableHeader tr th.edit {
   width: 119px;
 }
 .list .tableHeader .active {
@@ -110,7 +110,120 @@ body {
   width: 1200px;
   height: 274px;
 }
-.addClient {
+.admins-table {
+  border-collapse: collapse;
+  background-color: #fff;
+  border: 1px solid grey;
+}
+.admins-table caption {
+  height: 30px;
+  font: bold 24px Arial, sans-serif;
+}
+.admins-table .tableHeader {
+  width: 1200px;
+}
+.admins-table .tableHeader tr {
+  display: table;
+  width: 1200px;
+  table-layout: fixed;
+}
+.admins-table .tableHeader tr th {
+  background-color: #444444;
+  color: #cccccc;
+  font: bold 14px Arial, sans-serif;
+  height: 22px;
+  cursor: pointer;
+}
+.admins-table .tableHeader tr th.id {
+  padding-right: 10px;
+  width: 33px;
+}
+.admins-table .tableHeader tr th.name {
+  width: 120px;
+}
+.admins-table .tableHeader tr th.phone {
+  width: 120px;
+}
+.admins-table .tableHeader tr th.email {
+  width: 230px;
+}
+.admins-table .tableHeader tr th.date {
+  width: 230px;
+}
+.admins-table .tableHeader tr th.delete,
+.admins-table .tableHeader tr th.edit {
+  width: 119px;
+}
+.admins-table .tableHeader .active {
+  background-color: #222222;
+}
+.admins-table tbody {
+  display: block;
+  height: 278px;
+  width: 1200px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+.admins-table tbody .client {
+  font: 12px Arial, sans-serif;
+  display: table;
+  width: 1200px;
+  table-layout: fixed;
+}
+.admins-table tbody .client:nth-child(n+1) {
+  border-bottom: 1px solid grey;
+}
+.admins-table tbody .client:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.admins-table tbody .client td:first-child {
+  padding-right: 10px;
+  width: 33px;
+}
+.admins-table tbody .client td:nth-child(2) {
+  width: 120px;
+}
+.admins-table tbody .client td:nth-child(3) {
+  width: 120px;
+}
+.admins-table tbody .client td:nth-child(4) {
+  width: 230px;
+}
+.admins-table tbody .client td.client-date {
+  width: 230px;
+}
+.admins-table tbody .client td.client-delete,
+.admins-table tbody .client td.edit-element {
+  width: 119px;
+}
+.admins-table tbody .client .delClient,
+.admins-table tbody .client .editClient {
+  width: 100%;
+  display: block;
+  margin: auto;
+  text-align: center;
+  background-color: #444444;
+  outline: none;
+  color: white;
+  border: none;
+  height: 25px;
+}
+.admins-table tbody .client .delClient:active,
+.admins-table tbody .client .editClient:active {
+  background-color: #222222;
+}
+.admins-table .dummy {
+  display: table-row;
+  text-align: center;
+  font: 20px Arial, sans-serif;
+  border: 1px solid grey;
+}
+.admins-table .dummy td {
+  width: 1200px;
+  height: 274px;
+}
+.addAdmin,
+.addUser {
   width: 100px;
   height: 30px;
   background-color: #444444;
@@ -120,10 +233,12 @@ body {
   margin: 20px;
   outline: none;
 }
-.addClient:active {
+.addAdmin:active,
+.addUser:active {
   background-color: #222222;
 }
-.popup {
+.userPopup,
+.adminPopup {
   background-color: #444444;
   color: #d6d6d6;
   position: absolute;
@@ -137,22 +252,26 @@ body {
   z-index: 99;
   font: 1em Arial, sans-serif;
 }
-.popup .form {
+.userPopup .form,
+.adminPopup .form {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   width: 75%;
   text-align: left;
   margin: 30px auto;
 }
-.popup .form h3 {
+.userPopup .form h3,
+.adminPopup .form h3 {
   margin-bottom: 30px;
   text-align: center;
 }
-.popup .form label {
+.userPopup .form label,
+.adminPopup .form label {
   margin: 20px 0 0 0;
   width: 130px;
 }
-.popup .form input {
+.userPopup .form input,
+.adminPopup .form input {
   margin: 10px 0 20px 0;
   width: 100%;
   height: 40px;
@@ -160,11 +279,13 @@ body {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-.popup .form .button-group {
+.userPopup .form .button-group,
+.adminPopup .form .button-group {
   width: 200px;
   margin: auto;
 }
-.popup .form .button-group button {
+.userPopup .form .button-group button,
+.adminPopup .form .button-group button {
   margin: 0 10px;
   height: 30px;
   width: 80px;

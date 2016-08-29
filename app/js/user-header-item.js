@@ -11,41 +11,41 @@
         this.fields = {
             id: function () {
                 var idElement = document.createElement('TH');
-                idElement.id = 'id';
+                idElement.className= 'id';
                 idElement.dataset.sortBy = 'id';
                 idElement.textContent = 'ID';
                 return idElement;
             },
             name: function () {
                 var nameElement = document.createElement('TH');
-                nameElement.id = 'name';
+                nameElement.className = 'name';
                 nameElement.dataset.sortBy = 'name';
                 nameElement.textContent = 'Name';
                 return nameElement;
             },
             email: function () {
                 var emailElement = document.createElement('TH');
-                emailElement.id = 'email';
+                emailElement.className = 'email';
                 emailElement.dataset.sortBy = 'email';
                 emailElement.textContent = 'Email';
                 return emailElement;
             },
             date: function () {
                 var dateElement = document.createElement('TH');
-                dateElement.id = 'date';
+                dateElement.className = 'date';
                 dateElement.dataset.sortBy = 'date';
                 dateElement.textContent = 'Estimated time';
                 return dateElement;
             },
             del: function () {
                 var delElement = document.createElement('TH');
-                delElement.id = 'delete';
+                delElement.className = 'delete';
                 delElement.textContent = 'Delete';
                 return delElement;
             },
             edit: function () {
                 var editElement = document.createElement('TH');
-                editElement.id = 'edit';
+                editElement.className = 'edit';
                 editElement.textContent = 'Edit';
                 return editElement;
             }

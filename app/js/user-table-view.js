@@ -3,7 +3,7 @@
    
     function UserTableView(options) {
         this.el = document.createElement('TABLE');
-        this.el.className = 'users-list';
+        this.el.className = 'list';
         this.collection = options.collection;
         this.loadingSettings = options.settings;
         this.rowItems = [];

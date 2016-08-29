@@ -1,4 +1,5 @@
 ;(function () {
+    'use strict';
     function Admin(model) {
         App.Models.User.call(this, model);
         this.phone = model.phone;

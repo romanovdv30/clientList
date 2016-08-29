@@ -5,7 +5,7 @@
         this.renderOrder = ['id', 'name','phone', 'email', 'date', 'del', 'edit'];
         this.fields.phone = function(){
             var phoneElement = document.createElement('TH');
-            phoneElement.id = 'phone';
+            phoneElement.className = 'phone';
             phoneElement.dataset.sortBy = 'phone';
             phoneElement.textContent = 'Phone';
             return phoneElement;

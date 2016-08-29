@@ -16,6 +16,7 @@
             return phoneElement;
         };
     }
+
     AdminTemplate.prototype = Object.create( App.Models.UserTemplate.prototype);
     App.Models.AdminTemplate = AdminTemplate;
 })(App);
